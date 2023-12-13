@@ -39,4 +39,24 @@ public class DropdownTest extends BaseTest {
         driver.findElement(By.id("btnclosepaxoption")).click();
         System.out.println("After adding adults: " + addPassengersDropdown.getText());
     }
+
+
+    @Test
+    public void selectDynamicDropdown() {
+        WebElement originInput =  driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT"));
+        originInput.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement origin = driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_originStation1_CTNR a[text*='BLR']"));
+        wait.until(ExpectedConditions.visibilityOf(origin));
+        origin.click();
+
+        WebElement destinationInput = driver.findElement(By.id("ctl00_mainContent_ddl_destinationStation1_CTXT"));
+        destinationInput.click();
+        WebElement destination = driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_destinationStation1_CTNR a[text*='MAA']"));
+        wait.until(ExpectedConditions.visibilityOf(destination));
+        destination.click();
+
+        System.out.println(originInput.getAttribute("selectedtext"));
+        System.out.println(destinationInput.getAttribute("selectedtext"));
+    }
 }
