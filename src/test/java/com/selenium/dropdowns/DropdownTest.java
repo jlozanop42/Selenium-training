@@ -90,7 +90,6 @@ public class DropdownTest {
         Thread.sleep(2000);
         List<WebElement> countryOptions = driver.findElements(By.cssSelector("li.ui-menu-item a"));
         Thread.sleep(3000);
-        System.out.println(countryOptions);
         for(WebElement option: countryOptions) {
             if(option.getText().equalsIgnoreCase("India")) {
                 option.click();

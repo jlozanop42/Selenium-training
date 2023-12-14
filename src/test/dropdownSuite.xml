@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="DropdownSuite" verbose="1" >
+    <test name="Dropdown test" >
+        <classes>
+            <class name="com.selenium.dropdowns.DropdownTest">
+            </class>
+        </classes>
+    </test>
+</suite>
