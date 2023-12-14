@@ -1,13 +1,39 @@
+package com.selenium.dropdowns;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
-public class DropdownTest extends BaseTest {
+public class DropdownTest {
+
+    WebDriver driver;
+
+    WebDriverWait wait;
+
+
+    @BeforeClass
+    public void setupDriver() {
+        driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    @BeforeMethod
+    public void goToMainPage() {
+        driver.manage().window().maximize();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
 
     @Test
     public void selectDropdown() {
@@ -30,7 +56,6 @@ public class DropdownTest extends BaseTest {
         System.out.println("Before adding passengers: " + addPassengersDropdown.getText());
         addPassengersDropdown.click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement addAdult = driver.findElement(By.id("hrefIncAdt"));
         wait.until(ExpectedConditions.visibilityOf(addAdult));
         for(int i = 0; i < 5; i ++) {
@@ -45,7 +70,7 @@ public class DropdownTest extends BaseTest {
     public void selectDynamicDropdown() {
         WebElement originInput =  driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT"));
         originInput.click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         WebElement origin = driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_originStation1_CTNR a[text*='BLR']"));
         wait.until(ExpectedConditions.visibilityOf(origin));
         origin.click();
@@ -59,4 +84,25 @@ public class DropdownTest extends BaseTest {
         System.out.println(originInput.getAttribute("selectedtext"));
         System.out.println(destinationInput.getAttribute("selectedtext"));
     }
+    @Test
+    public void autoSuggestiveDropdown() throws InterruptedException {
+        driver.findElement(By.id("autosuggest")).sendKeys("ind");
+        Thread.sleep(2000);
+        List<WebElement> countryOptions = driver.findElements(By.cssSelector("li.ui-menu-item a"));
+        Thread.sleep(3000);
+        System.out.println(countryOptions);
+        for(WebElement option: countryOptions) {
+            if(option.getText().equalsIgnoreCase("India")) {
+                option.click();
+                break;
+            }
+        }
+    }
+
+    @AfterClass
+    public void tearDown() {
+        driver.quit();
+    }
 }
+
+
