@@ -1,4 +1,4 @@
-package com.selenium.dropdowns;
+package com.selenium.checkbox;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
