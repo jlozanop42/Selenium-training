@@ -46,5 +46,4 @@ public class EnabledTest {
     public void tearDown() {
         driver.quit();
     }
-
 }
