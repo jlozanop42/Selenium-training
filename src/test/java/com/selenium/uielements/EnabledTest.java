@@ -1,4 +1,4 @@
-package com.selenium.elements.state;
+package com.selenium.uielements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

@@ -2,7 +2,7 @@
 <suite name="DropdownSuite" verbose="1" >
     <test name="Dropdown test" >
         <classes>
-            <class name="com.selenium.dropdowns.DropdownTest">
+            <class name="com.selenium.uielements.DropdownTest">
             </class>
         </classes>
     </test>

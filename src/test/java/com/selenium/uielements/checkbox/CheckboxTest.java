@@ -1,4 +1,4 @@
-package com.selenium.checkbox;
+package com.selenium.uielements.checkbox;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

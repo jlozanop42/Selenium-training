@@ -1,4 +1,4 @@
-package com.selenium.assignments;
+package com.selenium.uielements.assignments;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
