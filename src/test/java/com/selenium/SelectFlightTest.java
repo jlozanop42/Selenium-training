@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -37,7 +37,7 @@ public class SelectFlightTest {
         WebElement originInput =  driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT"));
         originInput.click();
 
-        WebElement origin = driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_originStation1_CTNR a[text*='BLR']"));
+        WebElement origin = driver.findElement(By.cssSelector("#ctl00_mainContent_ddl_originStation1_CTNR a[text*='DEL']"));
         wait.until(ExpectedConditions.visibilityOf(origin));
         origin.click();
 
@@ -51,6 +51,20 @@ public class SelectFlightTest {
         System.out.println(destinationInput.getAttribute("selectedtext"));
 
         driver.findElement(By.cssSelector(".ui-datepicker-today")).click();
+
+        WebElement addPassengersDropdown = driver.findElement(By.id("divpaxinfo"));
+        System.out.println("Before adding passengers: " + addPassengersDropdown.getText());
+        addPassengersDropdown.click();
+
+        WebElement addAdult = driver.findElement(By.id("hrefIncAdt"));
+        wait.until(ExpectedConditions.visibilityOf(addAdult));
+        for(int i = 0; i < 2; i ++) {
+            addAdult.click();
+        }
+        driver.findElement(By.id("btnclosepaxoption")).click();
+        Assert.assertEquals(addPassengersDropdown.getText(), "3 Adult");
+        driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+        driver.findElement(By.xpath("//div[@id='Div6']//input[contains(@id, 'FindFlights')]")).click();
     }
 
     @AfterClass
