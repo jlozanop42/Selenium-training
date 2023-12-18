@@ -1,4 +1,4 @@
-package com.selenium.cart;
+package com.selenium.waits;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,11 +13,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CartTes {
+public class ImplicitWait {
 
     WebDriver driver;
 
@@ -27,6 +26,7 @@ public class CartTes {
     @BeforeClass
     public void setupDriver() {
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
@@ -37,13 +37,7 @@ public class CartTes {
     }
 
     @Test
-    public void addToCartWithDirectSelector() throws InterruptedException {
-        driver.findElement(By.xpath("//h4[contains(.,'Cucumber')]//parent::div//button")).click();
-        Thread.sleep(5000);
-    }
-
-    @Test
-    public void addToCartIterating() {
+    public void addToCartAndCheckout() {
         List<String> itemsToAdd = Arrays.asList("Cucumber", "Tomato", "Brinjal");
         addItemsToCart(itemsToAdd);
         proceedToCheckout(itemsToAdd.size());
@@ -70,18 +64,18 @@ public class CartTes {
 
     public void applyPromoCode(String promoCode) {
         WebElement applyButton = driver.findElement(By.cssSelector("button.promoBtn"));
-        wait.until(ExpectedConditions.visibilityOf(applyButton));
         driver.findElement(By.cssSelector("input.promoCode")).sendKeys(promoCode);
         String totalBeforeDiscount = driver.findElement(By.cssSelector("span.discountAmt")).getText();
+        System.out.println(totalBeforeDiscount);
         applyButton.click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("span.promoInfo"))));
         String totalAfterDiscount = driver.findElement(By.cssSelector("span.discountAmt")).getText();
-        Assert.assertTrue(Integer.parseInt(totalBeforeDiscount) < Integer.parseInt(totalAfterDiscount));
+        driver.findElement(By.cssSelector("span.promoInfo"));
+        Assert.assertEquals(driver.findElement(By.cssSelector("span.promoInfo")).getText(), "Code applied ..!");
+        System.out.println(totalAfterDiscount);
 
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
-    }
+        driver.quit();}
 }
