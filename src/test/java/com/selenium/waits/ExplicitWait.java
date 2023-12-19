@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -14,15 +16,16 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImplicitWait {
-
+public class ExplicitWait {
     WebDriver driver;
+
+    WebDriverWait wait;
 
 
     @BeforeClass
     public void setupDriver() {
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @BeforeMethod
@@ -58,15 +61,12 @@ public class ImplicitWait {
     }
 
     public void applyPromoCode(String promoCode) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated((By.cssSelector("button.promoBtn"))));
         WebElement applyButton = driver.findElement(By.cssSelector("button.promoBtn"));
         driver.findElement(By.cssSelector("input.promoCode")).sendKeys(promoCode);
-        String totalBeforeDiscount = driver.findElement(By.cssSelector("span.discountAmt")).getText();
-        System.out.println(totalBeforeDiscount);
         applyButton.click();
-        String totalAfterDiscount = driver.findElement(By.cssSelector("span.discountAmt")).getText();
-        driver.findElement(By.cssSelector("span.promoInfo"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated((By.cssSelector("span.promoInfo"))));
         Assert.assertEquals(driver.findElement(By.cssSelector("span.promoInfo")).getText(), "Code applied ..!");
-        System.out.println(totalAfterDiscount);
 
     }
 
