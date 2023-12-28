@@ -1,6 +1,7 @@
 package com.selenium.actions;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -25,7 +26,7 @@ public class MouseHoverTest {
     @BeforeClass
     public void setupDriver() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         actions = new Actions(driver);
     }
 
@@ -36,9 +37,19 @@ public class MouseHoverTest {
     }
 
     @Test
-    public void hoverOverElement() throws InterruptedException {
+    public void actionsTest() throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("twotabsearchtextbox")));
-        actions.moveToElement(driver.findElement(By.id("icp-nav-flyout"))).build().perform();
+        actions.moveToElement(driver.findElement(By.id("twotabsearchtextbox"))).
+                click().
+                keyDown(Keys.SHIFT).
+                sendKeys("hello").
+                doubleClick().
+                build().
+                perform();
+        actions.moveToElement(driver.findElement(By.id("icp-nav-flyout"))).
+                contextClick()
+                .build()
+                .perform();
         Thread.sleep(7000);
     }
 
